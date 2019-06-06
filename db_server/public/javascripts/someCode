@@ -1,0 +1,61 @@
+const Schema = require('mongoose').Schema;
+const mongoose = require('mongoose');
+
+var schema = new mongoose.Schema({ 'name': 'string', "size": 'string' });
+
+
+module.exports = BlogPost = mongoose.model('BlogPost', schema);
+
+let mongoose = require('mongoose')
+let validator = require('validator')
+let emailSchema = new mongoose.Schema({
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
+        validate: (value) => {
+            return validator.isEmail(value)
+        }
+    }
+})
+module.exports = mongoose.model('Email', emailSchema)
+
+mongoose.connect('mongodb://localhost:27017/myproject',{useNewUrlParser: true});
+let db = mongoose.connection;
+
+db.once('open', function(){
+    console.log('Connection established')
+});
+
+db.on('error', function(err){
+    console.log(err);
+});
+
+function fun(){
+
+    let entry = new BlogPost;
+
+    entry.name = 'pete';
+    entry.size = '3meter';
+
+    entry.save(function (err) {
+        console.log(err)
+    })
+}
+
+
+function mongooseStuff(){
+
+    let msg = new EmailModel({
+        email: 'ADA.LOVELACE@GMAIL.COM'
+    });
+    msg.save()
+        .then(doc => {
+            console.log(doc)
+        })
+        .catch(err => {
+            console.error(err)
+        })
+
+}
